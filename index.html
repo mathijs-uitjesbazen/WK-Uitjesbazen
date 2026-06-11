@@ -143,14 +143,10 @@
 </div>
 
 <script>
-const API_PAGES = [
-  'https://ranking.scorito.com/6/ranking/v2.0/gameranking/getpage/1135646/0/0',
-  'https://ranking.scorito.com/6/ranking/v2.0/gameranking/getpage/1135646/0/1',
-  'https://ranking.scorito.com/6/ranking/v2.0/gameranking/getpage/1135646/0/2',
-];
+const PROXY = 'https://scorito.mathijs-137.workers.dev';
 
-async function fetchPage(url) {
-  const res = await fetch(url, { credentials: 'include' });
+async function fetchPage(page) {
+  const res = await fetch(`${PROXY}?page=${page}`);
   if (!res.ok) throw new Error('HTTP ' + res.status);
   const data = await res.json();
   return data.Content?.RankingItems || [];
@@ -158,19 +154,19 @@ async function fetchPage(url) {
 
 async function loadStand() {
   try {
-    const pages = await Promise.all(API_PAGES.map(fetchPage));
+    const pages = await Promise.all([0, 1, 2].map(fetchPage));
     const all = pages.flat().filter(p => p.UserName || p.Name);
     renderStand(all);
   } catch(e) {
     document.getElementById('content').innerHTML =
-      '<div class="error">Kon de stand niet ophalen.<br>Zorg dat je ingelogd bent op <a href="https://scorito.com" target="_blank" style="color:#f59e0b">scorito.com</a> in dezelfde browser.<br><br><button onclick="loadStand()">Opnieuw proberen</button></div>';
+      '<div class="error">Kon de stand niet ophalen.<br><br><button onclick="loadStand()">Opnieuw proberen</button></div>';
   }
 }
 
 function renderStand(items) {
   if (!items.length) {
     document.getElementById('content').innerHTML =
-      '<div class="error">Geen deelnemers gevonden.<br>Ben je ingelogd op scorito.com?<br><br><button onclick="loadStand()">Opnieuw proberen</button></div>';
+      '<div class="error">Geen deelnemers gevonden.<br><br><button onclick="loadStand()">Opnieuw proberen</button></div>';
     return;
   }
 
