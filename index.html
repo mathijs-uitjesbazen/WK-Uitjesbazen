@@ -5,146 +5,169 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Uitjesbazen – WK 2026 Stand</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 100%; height: 100%; background: #060e1e; font-family: 'Inter', sans-serif; }
-    #app {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 32px 24px;
-      color: #fff;
-      min-height: 100vh;
+    html, body { width: 100%; height: 100vh; overflow: hidden; background: #060e1e; font-family: 'Inter', sans-serif; color: #fff; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      grid-template-rows: auto 1fr;
+      height: 100vh;
     }
+
+    /* HEADER */
     .header {
+      grid-column: 1 / -1;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 28px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 20px 36px;
+      background: #0d1b2e;
+      border-bottom: 3px solid #f97316;
     }
-    .header-left { display: flex; align-items: center; gap: 16px; }
-    .logo {
-      background: #f97316;
-      color: #fff;
-      font-weight: 900;
-      font-size: 14px;
-      padding: 8px 12px;
-      border-radius: 6px;
-      letter-spacing: 0.5px;
-    }
-    .title { font-size: 24px; font-weight: 700; }
-    .subtitle { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 3px; }
-    .header-right { text-align: right; }
-    .live-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: rgba(239,68,68,0.12);
-      border: 1px solid rgba(239,68,68,0.3);
-      color: #ef4444;
-      font-size: 12px;
-      font-weight: 500;
-      padding: 5px 12px;
-      border-radius: 20px;
-    }
-    .live-dot {
-      width: 7px; height: 7px;
-      background: #ef4444;
-      border-radius: 50%;
-      animation: pulse 1.5s infinite;
-    }
+    .header-left { display: flex; align-items: center; gap: 18px; }
+    .nl-flag { font-size: 38px; line-height: 1; }
+    .header-titles .main { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; }
+    .header-titles .sub { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 3px; }
+    .wk-badge { background: #f97316; color: #fff; font-weight: 900; font-size: 14px; padding: 8px 16px; border-radius: 8px; letter-spacing: 1px; }
+    .header-right { display: flex; align-items: center; gap: 14px; }
+    .live-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 20px; }
+    .live-dot { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; animation: pulse 1.5s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-    .last-update { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 6px; }
+    .last-update { font-size: 12px; color: rgba(255,255,255,0.3); }
 
-    .table-header {
-      display: grid;
-      grid-template-columns: 52px 1fr 90px 90px;
-      gap: 8px;
-      padding: 0 14px 10px;
-      font-size: 11px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.3);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
-    .row {
-      display: grid;
-      grid-template-columns: 52px 1fr 90px 90px;
-      gap: 8px;
-      align-items: center;
-      padding: 12px 14px;
-      border-radius: 8px;
-      margin-bottom: 4px;
-      border: 1px solid transparent;
-    }
-    .row:nth-child(odd) { background: rgba(255,255,255,0.03); }
+    /* STAND */
+    .stand-col { padding: 24px 32px; overflow: hidden; display: flex; flex-direction: column; }
+    .section-label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; flex-shrink: 0; }
+    .table-header { display: grid; grid-template-columns: 56px 1fr 90px 90px; gap: 8px; padding: 0 16px 10px; font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 1px; flex-shrink: 0; }
+    
+    .scroll-container { flex: 1; overflow: hidden; position: relative; }
+    .scroll-inner { position: absolute; width: 100%; transition: top 0.8s ease-in-out; }
+
+    .row { display: grid; grid-template-columns: 56px 1fr 90px 90px; gap: 8px; align-items: center; padding: 14px 16px; border-radius: 10px; margin-bottom: 5px; border: 1px solid transparent; }
+    .row:nth-child(odd) { background: rgba(255,255,255,0.025); }
     .row.top3 { background: rgba(250,163,22,0.07); border-color: rgba(250,163,22,0.12); }
     .row.top1 { background: rgba(250,163,22,0.13); border-color: rgba(250,163,22,0.28); }
+    .rank-cell { text-align: center; font-size: 20px; }
+    .rank-num { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.3); }
+    .name { font-size: 17px; font-weight: 500; }
+    .points-round { font-size: 15px; color: rgba(255,255,255,0.35); text-align: center; }
+    .points-total { font-size: 20px; font-weight: 700; color: #f59e0b; text-align: center; }
 
-    .rank { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.35); text-align: center; }
-    .rank.gold   { color: #f59e0b; }
-    .rank.silver { color: #94a3b8; }
-    .rank.bronze { color: #cd7c3a; }
-    .name { font-size: 16px; font-weight: 500; }
-    .points-round { font-size: 15px; color: rgba(255,255,255,0.4); text-align: center; }
-    .points-total { font-size: 18px; font-weight: 700; color: #f59e0b; text-align: center; }
+    /* SIDEBAR */
+    .sidebar { background: #0d1422; border-left: 1px solid rgba(255,255,255,0.06); padding: 24px 22px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
 
-    .loading, .error {
-      text-align: center;
-      padding: 80px 20px;
-      color: rgba(255,255,255,0.45);
-      font-size: 15px;
-      line-height: 1.8;
-    }
-    .error { color: #f87171; }
-    .spinner {
-      width: 36px; height: 36px;
-      border: 3px solid rgba(255,255,255,0.08);
-      border-top-color: #f59e0b;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
-    }
+    /* Match card */
+    .match-card { background: linear-gradient(135deg, #0a2d5e 0%, #0e3875 100%); border: 1px solid rgba(249,115,22,0.3); border-radius: 14px; padding: 20px; }
+    .card-label { font-size: 11px; font-weight: 600; color: #f97316; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+    .match-teams { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+    .match-team { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+    .match-team img { width: 52px; height: 52px; object-fit: contain; }
+    .match-team-name { font-size: 13px; font-weight: 600; text-align: center; color: rgba(255,255,255,0.9); }
+    .match-vs { font-size: 22px; font-weight: 900; color: rgba(255,255,255,0.2); }
+    .match-score { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 36px; font-weight: 900; }
+    .match-score-div { color: rgba(255,255,255,0.3); font-size: 26px; }
+    .match-info { font-size: 12px; color: rgba(255,255,255,0.4); text-align: center; line-height: 1.6; }
+    .live-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 12px; margin: 8px auto 0; }
+
+    /* Countdown */
+    .countdown-wrap { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 18px; }
+    .countdown-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; text-align: center; }
+    .countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .countdown-unit { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 12px 4px; text-align: center; }
+    .countdown-num { font-size: 26px; font-weight: 900; color: #f97316; line-height: 1; }
+    .countdown-lbl { font-size: 10px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+
+    /* Groepsstand */
+    .group-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 18px; }
+    .group-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .group-table th { color: rgba(255,255,255,0.3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; font-size: 10px; padding: 0 4px 8px; text-align: center; }
+    .group-table th:first-child { text-align: left; }
+    .group-table td { padding: 8px 4px; text-align: center; color: rgba(255,255,255,0.65); border-top: 1px solid rgba(255,255,255,0.04); }
+    .group-table td:first-child { text-align: left; }
+    .group-table tr.nl td { color: #fff; font-weight: 600; }
+    .group-table tr.nl td:last-child { color: #f59e0b; font-weight: 700; }
+    .team-cell { display: flex; align-items: center; gap: 8px; }
+
+    #top3-container { flex-shrink: 0; border-bottom: 1px solid rgba(249,115,22,0.2); margin-bottom: 8px; padding-bottom: 5px; }
+    .loading, .error { text-align: center; padding: 40px 10px; color: rgba(255,255,255,0.4); font-size: 13px; }
+    .spinner { width: 28px; height: 28px; border: 2px solid rgba(255,255,255,0.08); border-top-color: #f59e0b; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    button {
-      margin-top: 16px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: rgba(255,255,255,0.7);
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-size: 13px;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-    }
-    button:hover { background: rgba(255,255,255,0.13); }
   </style>
 </head>
 <body>
-<div id="app">
+<div class="layout">
   <div class="header">
     <div class="header-left">
-      <div class="logo">WK 2026</div>
-      <div>
-        <div class="title">Uitjesbazen</div>
-        <div class="subtitle">Poulestand</div>
+      <div class="nl-flag">🇳🇱</div>
+      <div class="header-titles">
+        <div class="main">Uitjesbazen</div>
+        <div class="sub">WK 2026 Poulestand</div>
       </div>
+      <div class="wk-badge">WK 2026</div>
     </div>
     <div class="header-right">
-      <div class="live-badge"><div class="live-dot"></div> Live</div>
       <div class="last-update" id="last-update"></div>
+      <div class="live-badge"><div class="live-dot"></div> Live</div>
     </div>
   </div>
-  <div id="content">
-    <div class="loading"><div class="spinner"></div>Stand ophalen...</div>
+
+  <div class="stand-col">
+    <div class="section-label">Klassement</div>
+    <div class="table-header">
+      <span style="text-align:center">#</span>
+      <span>Naam</span>
+      <span style="text-align:center">Ronde</span>
+      <span style="text-align:center">Totaal</span>
+    </div>
+    <div id="top3-container"></div>
+    <div class="scroll-container" id="scroll-container">
+      <div class="scroll-inner" id="scroll-inner">
+        <div class="loading"><div class="spinner"></div>Stand ophalen...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div class="match-card" id="match-card">
+      <div class="card-label">🇳🇱 Volgende wedstrijd</div>
+      <div class="loading" style="padding:16px 0"><div class="spinner"></div></div>
+    </div>
+    <div class="countdown-wrap" id="countdown-wrap" style="display:none">
+      <div class="countdown-label">Aftellen tot aftrap</div>
+      <div class="countdown-grid">
+        <div class="countdown-unit"><div class="countdown-num" id="cd-d">00</div><div class="countdown-lbl">Dagen</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-h">00</div><div class="countdown-lbl">Uur</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-m">00</div><div class="countdown-lbl">Min</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-s">00</div><div class="countdown-lbl">Sec</div></div>
+      </div>
+    </div>
+    <div class="group-card">
+      <div class="card-label">⚽ Groep F</div>
+      <div id="group-content"><div class="loading" style="padding:10px 0"><div class="spinner"></div></div></div>
+    </div>
   </div>
 </div>
 
 <script>
 const PROXY = 'https://scorito.mathijs-137.workers.dev';
+const NL_TEAM_ID = '133905';
+const GROUP_F = [
+  { id: '133905', name: 'Nederland', flag: '🇳🇱' },
+  { id: '134503', name: 'Japan',     flag: '🇯🇵' },
+  { id: '136142', name: 'Tunesië',   flag: '🇹🇳' },
+  { id: '133916', name: 'Zweden',    flag: '🇸🇪' },
+];
+const MEDALS = ['🥇','🥈','🥉'];
+let matchKickoff = null;
+let scrollInterval = null;
+let currentScrollPos = 0;
+let ROW_HEIGHT = 53;
+const VISIBLE_ROWS = 10;
 
+// ── POULESTAND ──
 async function fetchPage(page) {
   const res = await fetch(`${PROXY}?page=${page}`);
   if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -154,51 +177,177 @@ async function fetchPage(page) {
 
 async function loadStand() {
   try {
-    const pages = await Promise.all([0, 1, 2].map(fetchPage));
+    const pages = await Promise.all([0,1,2].map(fetchPage));
     const all = pages.flat().filter(p => p.UserName || p.Name);
     renderStand(all);
+    const now = new Date();
+    document.getElementById('last-update').textContent =
+      'Bijgewerkt om ' + now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
   } catch(e) {
-    document.getElementById('content').innerHTML =
-      '<div class="error">Kon de stand niet ophalen.<br><br><button onclick="loadStand()">Opnieuw proberen</button></div>';
+    document.getElementById('scroll-inner').innerHTML = '<div class="error">Kon de stand niet ophalen.</div>';
   }
 }
 
 function renderStand(items) {
-  if (!items.length) {
-    document.getElementById('content').innerHTML =
-      '<div class="error">Geen deelnemers gevonden.<br><br><button onclick="loadStand()">Opnieuw proberen</button></div>';
-    return;
+  if (!items.length) { document.getElementById('scroll-inner').innerHTML = '<div class="error">Geen deelnemers gevonden.</div>'; return; }
+  const sorted = [...items].sort((a,b) => (b.TotalPoints||0) - (a.TotalPoints||0));
+
+  const top3 = sorted.slice(0, 3);
+  const rest = sorted.slice(3);
+
+  let top3html = '';
+  top3.forEach((p,i) => {
+    const pos = i+1;
+    const rowClass = pos===1 ? 'row top1' : 'row top3';
+    top3html += `<div class="${rowClass}"><div class="rank-cell">${MEDALS[i]}</div><div class="name">${p.UserName||p.Name}</div><div class="points-round">${p.RoundPoints??'-'}</div><div class="points-total">${p.TotalPoints??0}</div></div>`;
+  });
+  document.getElementById('top3-container').innerHTML = top3html;
+
+  let restHtml = '';
+  rest.forEach((p,i) => {
+    const pos = i+4;
+    restHtml += `<div class="row"><div class="rank-cell"><span class="rank-num">${pos}</span></div><div class="name">${p.UserName||p.Name}</div><div class="points-round">${p.RoundPoints??'-'}</div><div class="points-total">${p.TotalPoints??0}</div></div>`;
+  });
+  document.getElementById('scroll-inner').innerHTML = restHtml;
+  currentScrollPos = 0;
+  document.getElementById('scroll-inner').style.top = '0px';
+  requestAnimationFrame(() => {
+    const firstRow = document.querySelector('.scroll-inner .row');
+    if (firstRow) ROW_HEIGHT = firstRow.getBoundingClientRect().height + 5;
+    startAutoScroll(rest.length);
+  });
+}
+
+function startAutoScroll(totalRows) {
+  if (scrollInterval) clearInterval(scrollInterval);
+  if (totalRows <= VISIBLE_ROWS) return;
+
+  const container = document.getElementById('scroll-container');
+  const inner = document.getElementById('scroll-inner');
+  const maxScroll = (totalRows - VISIBLE_ROWS) * ROW_HEIGHT;
+
+  scrollInterval = setInterval(() => {
+    currentScrollPos += ROW_HEIGHT;
+    if (currentScrollPos > maxScroll) {
+      inner.style.transition = 'none';
+      currentScrollPos = 0;
+      inner.style.top = '0px';
+      setTimeout(() => {
+        inner.style.transition = 'top 0.8s ease-in-out';
+      }, 50);
+    } else {
+      inner.style.transition = 'top 0.8s ease-in-out';
+      inner.style.top = `-${currentScrollPos}px`;
+    }
+  }, 2500);
+}
+
+// ── NL WEDSTRIJD ──
+async function loadMatch() {
+  try {
+    const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=${NL_TEAM_ID}`);
+    const data = await res.json();
+    const next = (data.events||[]).find(e => e.idLeague === '4429');
+    if (!next) { document.getElementById('match-card').innerHTML = '<div class="card-label">Geen wedstrijd gevonden</div>'; return; }
+    renderMatch(next);
+  } catch(e) {}
+}
+
+function renderMatch(ev) {
+  const isLive = ev.strStatus === 'LIVE' || ev.strStatus === 'HT';
+  const isFinished = ev.strStatus === 'Match Finished' || ev.strStatus === 'FT';
+  const hasScore = ev.intHomeScore !== null && ev.intAwayScore !== null;
+  const date = new Date(ev.strTimestamp + 'Z');
+  const dateStr = date.toLocaleDateString('nl-NL', { weekday:'long', day:'numeric', month:'long' });
+  const timeStr = date.toLocaleTimeString('nl-NL', { hour:'2-digit', minute:'2-digit' });
+  matchKickoff = date;
+
+  const scoreHtml = hasScore
+    ? `<div class="match-score"><span>${ev.intHomeScore}</span><span class="match-score-div">–</span><span>${ev.intAwayScore}</span></div>`
+    : `<div class="match-vs">VS</div>`;
+
+  let statusHtml = '';
+  if (isLive) {
+    statusHtml = `<div style="text-align:center"><div class="live-pill"><div class="live-dot"></div> LIVE</div></div>`;
+    document.getElementById('countdown-wrap').style.display = 'none';
+  } else if (isFinished) {
+    statusHtml = `<div style="text-align:center;margin-top:8px;font-size:11px;color:rgba(255,255,255,0.35)">Wedstrijd gespeeld</div>`;
+    document.getElementById('countdown-wrap').style.display = 'none';
+  } else {
+    document.getElementById('countdown-wrap').style.display = 'block';
   }
 
-  const sorted = [...items].sort((a, b) => (b.TotalPoints || 0) - (a.TotalPoints || 0));
+  document.getElementById('match-card').innerHTML = `
+    <div class="card-label">🇳🇱 ${isLive ? 'Nu bezig' : isFinished ? 'Laatste wedstrijd' : 'Volgende wedstrijd'}</div>
+    <div class="match-teams">
+      <div class="match-team">
+        <img src="${ev.strHomeTeamBadge}" onerror="this.style.display='none'">
+        <div class="match-team-name">${ev.strHomeTeam}</div>
+      </div>
+      ${scoreHtml}
+      <div class="match-team">
+        <img src="${ev.strAwayTeamBadge}" onerror="this.style.display='none'">
+        <div class="match-team-name">${ev.strAwayTeam}</div>
+      </div>
+    </div>
+    <div class="match-info">${dateStr}<br>${timeStr} · ${ev.strVenue||''}</div>
+    ${statusHtml}`;
+}
 
-  let html = `<div class="table-header">
-    <span style="text-align:center">#</span>
-    <span>Naam</span>
-    <span style="text-align:center">Ronde</span>
-    <span style="text-align:center">Totaal</span>
-  </div>`;
+// ── GROEP F ──
+async function loadGroupStand() {
+  try {
+    const res = await fetch('https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=4429&s=2026');
+    const data = await res.json();
+    const table = data.table || [];
+    const groupTeams = GROUP_F.map(meta => {
+      const entry = table.find(t => t.idTeam === meta.id);
+      return {
+        ...meta,
+        played: entry ? parseInt(entry.intPlayed)||0 : 0,
+        won:    entry ? parseInt(entry.intWin)||0 : 0,
+        draw:   entry ? parseInt(entry.intDraw)||0 : 0,
+        lost:   entry ? parseInt(entry.intLoss)||0 : 0,
+        gf:     entry ? parseInt(entry.intGoalsFor)||0 : 0,
+        ga:     entry ? parseInt(entry.intGoalsAgainst)||0 : 0,
+        pts:    entry ? parseInt(entry.intPoints)||0 : 0,
+      };
+    }).sort((a,b) => b.pts - a.pts || (b.gf-b.ga) - (a.gf-a.ga) || b.gf - a.gf);
 
-  sorted.forEach((p, i) => {
-    const pos = i + 1;
-    const rankClass = pos === 1 ? 'gold' : pos === 2 ? 'silver' : pos === 3 ? 'bronze' : '';
-    const rowClass = pos === 1 ? 'row top1' : pos <= 3 ? 'row top3' : 'row';
-    html += `<div class="${rowClass}">
-      <div class="rank ${rankClass}">${pos}</div>
-      <div class="name">${p.UserName || p.Name}</div>
-      <div class="points-round">${p.RoundPoints ?? '-'}</div>
-      <div class="points-total">${p.TotalPoints ?? 0}</div>
-    </div>`;
-  });
+    let html = `<table class="group-table">
+      <thead><tr><th>Team</th><th>G</th><th>W</th><th>G</th><th>V</th><th>Dg</th><th>Pt</th></tr></thead><tbody>`;
+    groupTeams.forEach(t => {
+      html += `<tr class="${t.name==='Nederland'?'nl':''}">
+        <td><div class="team-cell"><span>${t.flag}</span><span>${t.name}</span></div></td>
+        <td>${t.played}</td><td>${t.won}</td><td>${t.draw}</td><td>${t.lost}</td>
+        <td>${t.gf}–${t.ga}</td><td>${t.pts}</td>
+      </tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('group-content').innerHTML = html;
+  } catch(e) {
+    document.getElementById('group-content').innerHTML = '<div class="error">Kon groepsstand niet laden.</div>';
+  }
+}
 
-  document.getElementById('content').innerHTML = html;
-  const now = new Date();
-  document.getElementById('last-update').textContent =
-    'Bijgewerkt om ' + now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+// ── COUNTDOWN ──
+function updateCountdown() {
+  if (!matchKickoff) return;
+  const diff = matchKickoff - new Date();
+  if (diff <= 0) { document.getElementById('countdown-wrap').style.display = 'none'; return; }
+  document.getElementById('cd-d').textContent = String(Math.floor(diff/86400000)).padStart(2,'0');
+  document.getElementById('cd-h').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
 }
 
 loadStand();
+loadMatch();
+loadGroupStand();
 setInterval(loadStand, 3 * 60 * 1000);
+setInterval(loadMatch, 60 * 1000);
+setInterval(loadGroupStand, 60 * 1000);
+setInterval(updateCountdown, 1000);
 </script>
 </body>
 </html>
